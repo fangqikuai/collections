@@ -1,0 +1,104 @@
+body,ul,li{
+    margin: 0;
+    padding: 0;
+}
+html,body{
+    width: 100%;
+    height: 100%;
+}
+ul,li{
+    list-style: none;
+}
+.banner-3d{
+    width: 1220px;
+    margin: 100px auto;
+    -webkit-perspective: 3000px;
+    -moz-perspective: 3000px;
+    -ms-perspective: 3000px;
+    perspective: 3000px;
+}
+.banner-3d ul{
+    position: relative;
+    height: 500px;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+    -webkit-transition: -webkit-transform .3s cubic-bezier(.25,.46,.45,.94);
+    transition: -webkit-transform .3s cubic-bezier(.25,.46,.45,.94);
+    transition: transform .3s cubic-bezier(.25,.46,.45,.94);
+    transition: transform .3s cubic-bezier(.25,.46,.45,.94),-webkit-transform .3s cubic-bezier(.25,.46,.45,.94);
+}
+.banner-3d ul li{
+    height: 100%;
+    width: 100%;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    display: none;
+}
+.banner-3d ul li,.banner-3d ul li .banner-3d-box1, .banner-3d ul li .banner-3d-box2, .banner-3d ul li .banner-3d-box3, .banner-3d ul li .banner-3d-box-mask{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+.banner-3d ul li.active{
+    display: block;
+}
+.banner-3d ul li .banner-3d-shadow{
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    bottom: -60px;
+    left: -60px;
+    background: url(../images/banner-3d-shadow_ab4cdb6403.png);
+    opacity: 0;
+    transition: opacity .2s ease-in-out, transform .3s ease-in-out;
+}
+.banner-3d ul li .banner-3d-box1,.banner-3d ul li .banner-3d-box2,
+.banner-3d ul li .banner-3d-box3{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+.banner-3d ul li .banner-3d-box1{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+.banner-3d ul li.item1 .banner-3d-box1{
+    background-image: url(../images/banner-3d-item-jiangguofeeling-box-1_a85c0b7941.png);
+}
+.banner-3d ul li.item2 .banner-3d-box1{
+    background-image: url(../images/banner-3d-item-0822-box-1_69dd6816a0.png);
+}
+.banner-3d ul li.item3 .banner-3d-box1{
+    background-image: url(../images/banner-3d-item-redS1000-box-1_dec30f3aa4.png);
+}
+.banner-3d .banner-3d-slides li .banner-3d-box-mask {
+    top: -27px;
+    bottom: 0;
+    overflow: hidden;
+}
+.banner-3d ul li .banner-3d-box2,.banner-3d ul li .banner-3d-box3{
+    bottom: -27px;
+}
+.banner-3d ul li.item1 .banner-3d-box2{
+    background-image: url(../images/banner-3d-item-jiangguofeeling-box-2_f2b90053f6.png);
+}
+.banner-3d ul li.item2 .banner-3d-box2{
+    background-image: url(../images/banner-3d-item-0822-box-3_c23fadc060.png);
+}
+.banner-3d ul li.item2 .banner-3d-box3{
+    background-image: url(../images/banner-3d-item-0822-box-2_cb0fcabd3b.png);
+}
+.banner-3d ul li.item1 .banner-3d-box3{
+    background-image: url(../images/banner-3d-item-jiangguofeeling-box-3_fcd5c9e56f.png);
+}
+.banner-3d ul li.item3 .banner-3d-box3{
+    background-image: url(../images/banner-3d-item-redS1000-box-3_9a85415ba1.png);
+}
+.banner-3d ul li.item3 .banner-3d-box2{
+    background-image: url(../images/banner-3d-item-redS1000-box-2_e84566fc45.png);
+}
