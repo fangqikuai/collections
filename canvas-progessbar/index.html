@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>环形进度条--canvas</title>
+    <style>
+        canvas{
+            display: block;
+            margin: 50px auto;
+            border: 2px solid red;
+        }
+    </style>
+</head>
+<body>
+    <canvas width="300" height="300" id="myCanvas">
+        由于你的浏览器版本太低，不支持canvas!
+    </canvas>
+
+    <script>
+        onload = function(){
+            var num = 0;
+            function start(){
+                draw(150,150,100,"#ccc",num,"#06f");
+                num++;
+                var timer = setTimeout(function(){
+                    if(num > 100){
+                        clearTimeout(timer);
+                        return;
+                    }
+                    start();
+
+                },50)
+            }
+            start();
+            function draw(x,y,radius,bgColor,pro,proColor){
+                var canvas = document.getElementById("myCanvas");
+                if(!canvas.getContext) return;
+                var ctx = canvas.getContext("2d");
+                //先清除画布
+                ctx.closePath(0,0,300,300);
+
+                //画外圈的圆
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.arc(x, y,radius,Math.PI*2,false);
+                ctx.fillStyle = bgColor;
+                // ctx.closePath();
+                ctx.fill();
+
+                //画外圈的运动圆
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.arc(x, y,radius,1.5*Math.PI,1.5*Math.PI - Math.PI*2*pro/100,true);
+                var grd=ctx.createLinearGradient(100,100,200,200);
+                grd.addColorStop(0,"blue");
+                grd.addColorStop(0.5,"green");
+                grd.addColorStop(1,"red");
+
+                ctx.fillStyle = grd;
+                // ctx.closePath();
+                ctx.fill();
+
+
+                //画里圈的圆
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.arc(x, y,radius*0.7,Math.PI*2,false);
+                ctx.fillStyle = "#fff";
+                // ctx.closePath();
+                ctx.fill();
+
+                //画里圈的线
+                ctx.beginPath();
+                // ctx.moveTo(x, y);
+                ctx.arc(x, y,radius*0.65,Math.PI*2,false);
+                ctx.strokeStyle = bgColor;
+                // ctx.closePath();
+                ctx.stroke();
+
+
+                //画里圈的文字
+                ctx.beginPath();
+                ctx.font="14px Arial";
+                ctx.textAlign = "center";
+                ctx.fillStyle = proColor;
+                ctx.fillText(pro + "%",x,y);
+
+
+            }
+        }
+    </script>
+</body>
+</html>

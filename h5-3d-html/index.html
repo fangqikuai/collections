@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>H5-3d网页展示</title>
+    <style>
+        html,body,ul,li,h1,h2,h3,h4,p{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            font-family: "Microsoft Yahei";
+        }
+        ul,li{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+            color: #fff;
+        }
+        .perspective{
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .perspective.modalview{
+            position: fixed;
+            perspective: 1500px;
+            background: #888684;
+        }
+        .perspective .container{
+            height: 100%;
+            background: #fff;
+            position: relative;
+            z-index: 10;
+            -webkit-transition: -webkit-transform .4s;
+            -o-transition: -o-transform .4s;
+            transition: transform .4s;
+            -webkit-transform: translateZ(0) translateX(0) rotate(0deg);
+            -ms-transform: translateZ(0) translateX(0) rotate(0deg);
+            -o-transform: translateZ(0) translateX(0) rotate(0deg);
+            transform: translateZ(0) translateX(0) rotate(0deg);
+        }
+        .perspective .container.animate{
+            -webkit-transform: translateZ(-1500px) translateX(100%) rotateY(-45deg);
+            -ms-transform: translateZ(-1500px) translateX(100%) rotateY(-45deg);
+            -o-transform: translateZ(-1500px) translateX(100%) rotateY(-45deg);
+            transform: translateZ(-1500px) translateX(100%) rotateY(-45deg);
+        }
+        .wrapper{
+            text-align: center;
+        }
+        .wrapper h1{
+            padding-top: 40px;
+        }
+        .wrapper h2{
+            padding-top: 20px;
+            color: #aca89a;
+        }
+        .wrapper button{
+            margin-top: 140px;
+            padding: 20px;
+            font-size: 24px;
+            background: #ed8151;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .wrapper button:hover{
+            background: #e86a32;
+        }
+        .wrapper p{
+            margin-top: 50px;
+        }
+        .outer-nav{
+            position: absolute;
+            left: 15%;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            -o-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+        .outer-nav a{
+            display: block;
+            margin-bottom: 30px;
+            opacity: 0;
+            -webkit-transition: transform .4s, opacity .4s;
+            -o-transition: transform .4s, opacity .4s;
+            transition: transform .4s, opacity .4s;
+            -webkit-transform: translateX(-150px);
+            -ms-transform: translateX(-150px);
+            -o-transform: translateX(-150px);
+            transform: translateX(-150px);
+        }
+        .perspective.modalview .outer-nav a{
+            opacity: 1;
+            -webkit-transform: translateX(0);
+            -ms-transform: translateX(0);
+            -o-transform: translateX(0);
+            transform: translateX(0);
+        }
+        .perspective.modalview .outer-nav a:nth-child(2){
+            -webkit-transition-delay: 0.04s;
+            -o-transition-delay: 0.04s;
+            transition-delay: 0.04s;
+        }
+        .perspective.modalview .outer-nav a:nth-child(3){
+            -webkit-transition-delay: 0.08s;
+            -o-transition-delay: 0.08s;
+            transition-delay: 0.08s;
+        }
+        .perspective.modalview .outer-nav a:nth-child(4){
+            -webkit-transition-delay: 0.12s;
+            -o-transition-delay: 0.12s;
+            transition-delay: 0.12s;
+        }
+        .perspective.modalview .outer-nav a:nth-child(5){
+            -webkit-transition-delay: 0.16s;
+            -o-transition-delay: 0.16s;
+            transition-delay: 0.16s;
+        }
+        .perspective.modalview .outer-nav a:nth-child(6){
+            -webkit-transition-delay: 0.2s;
+            -o-transition-delay: 0.2s;
+            transition-delay: 0.2s;
+        }
+        .perspective.modalview .outer-nav a:nth-child(7){
+            -webkit-transition-delay: 0.24s;
+            -o-transition-delay: 0.24s;
+            transition-delay: 0.24s;
+        }
+    </style>
+</head>
+<body>
+    <div class="perspective" id="perspective">
+        <div class="container" id="container">
+            <div class="wrapper">
+                <h1>我的主页</h1>
+                <h2>transform-3D菜单</h2>
+                <button id="showMenu">show menu</button>
+                <p>Click on this button to see the content being pushed away in 3D to reveal a navigation or other items.</p>
+            </div>
+        </div>
+        <div class="outer-nav">
+            <a href="#">主页</a>
+            <a href="#">新闻</a>
+            <a href="#">图片</a>
+            <a href="#">上传</a>
+            <a href="#">喜爱</a>
+            <a href="#">消息</a>
+            <a href="#">安全</a>
+        </div>
+    </div>
+
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script>
+        $(function(){
+            $("#showMenu").click(function(){
+                $("#container").addClass('animate');
+                $("#perspective").addClass('modalview');
+                return false;
+            })
+            $("#container").click(function() {
+                $("#container").removeClass('animate');
+                $("#perspective").removeClass('modalview');
+            });
+        })
+    </script>
+</body>
+</html>

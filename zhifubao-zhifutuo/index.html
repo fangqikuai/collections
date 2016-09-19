@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>支付宝--支付托</title>
+    <style>
+        html,body,ul,li{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            font-family: Arial,'Microsoft Yahei';
+            font-size: 12px;
+            overflow: hidden;
+        }
+        ul{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+        }
+        .wrapper{
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .wrapper .scroll{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .wrapper .scroll li{
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        #next{
+            width: 48px;
+            height: 48px;
+            background-image: url(images/next.png);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: rgba(0, 0, 0, .3);
+            border-radius: 32px;
+            position: fixed;
+            bottom: 70px;
+            left: 50%;
+            margin-left: -16px;
+            z-index: 99;
+        }
+        video{
+            width: 100%;
+            height: 100%;
+        }
+        .floor{
+            width: 100%;
+            height: 100%;
+            background-image: url(images/1-gbywrl.png);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: rgba(0, 0, 0, 0.1);
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .btn{
+            width: 32px;
+            height: 32px;
+            background: url(images/1-play.png) no-repeat;
+            position: absolute;
+            top: 50%;
+            right: 30%;
+            display: none;
+        }
+        .scale{
+            transition: all 5s;
+            transform: scale(1.05);
+        }
+        .preson{
+            width: 50%;
+            position: absolute;
+            top: 20%;
+            right: 10%;
+        }
+        .text{
+            position: absolute;
+            top: 30%;
+            left: 20%;
+            display: none;
+        }
+        .text1{
+            position: absolute;
+            top: 30%;
+            left: 50%;
+        }
+        .scaner{
+            position: absolute;
+            top: -100%;
+            left: 10%;
+        }
+        .phone{
+            position: absolute;
+            bottom: -500px;
+            left: 25%;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper" id="scroller">
+        <ul class="scroll">
+            <li>
+                <video id="video" autoplay="autoplay" loop="loop" data-height="1080" data-width="1920" height="1080" width="1920" style="position: absolute; width: 1600px;height: 900px; left: 0px">
+                    <source  src="video/first.mp4"  type="video/mp4" />
+                </video>
+                <div class="floor">
+                    <a href="javascript:void(0)" class="btn"></a>
+                </div>
+
+            </li>
+            <li>
+                <img class="do-scale" src="images/2.png" alt="" style="height: 100%; width: 100%" />
+                <img class="preson" src="images/2-jgz.png" alt="" />
+                <img class="text" src="images/2-xzwhh.png" alt="" />
+            </li>
+            <li>
+                <img class="do-scale" src="images/3.png" alt="" style="height: 100%; width: 100%" />
+                <img class="text1" src="images/3-jgz.png" alt="" />
+                <img class="phone" src="images/3-phone.png" alt="" />
+                <img class="scaner" src="images/3-scaner.png" alt="" />
+            </li>
+            <li>
+                <img class="do-scale" src="images/4.png" alt="" style="height: 100%; width: 100%" />
+            </li>
+            <li>
+                <img class="do-scale" src="images/5.png" alt="" style="height: 100%; width: 100%" />
+            </li>
+            <li>
+                <img class="do-scale" src="images/6.png" alt="" style="height: 100%; width: 100%" />
+            </li>
+            <li>
+                <img class="do-scale" src="images/last.png" alt="" style="height: 100%; width: 100%" />
+            </li>
+        </ul>
+    </div>
+    <a href="javascript:void(0)" id="next"></a>
+    <script src="javascripts/jquery-2.1.1.min.js"></script>
+    <script>
+        // $(function(){
+        //     var index = 0;
+        //     var $container = $('.scroll');
+        //     var length = $container.children().length;
+        //     var speed = 500;
+        //     var lock = false;
+        //     //mousewheel鼠标滚轮事件  有兼容问题
+        //     $('#scroller').on('mousewheel', function(event) {
+        //         if(lock) return;
+        //         lock = true;
+        //         if(event.originalEvent.wheelDelta < 0 && index < length -1){
+        //             index++;
+        //         }else if(event.originalEvent.wheelDelta > 0 && index > 0){
+        //             index--;
+        //         }
+        //         $container.stop().animate({top:'-' + index + '00%'},speed,function(){
+        //             lock = false;
+        //         });
+        //     });
+        // })
+        //面向插件的开发  直接调用
+        //面向对象的开发  new 一个类
+        (function(scope,$){
+            //面向插件
+            //插件的参数
+            var _def_ = {
+                name: 'scroller',
+                speed: 500
+            };
+            //创建
+            var _proto_ ={
+                //初始化 参数 dom  _ 下划线开头标志的是私有事件
+                _init: function(ops){
+                    //jQuery的继承 $.extend
+                    this.options = $.extend(_def_,ops);
+                    this._$E = $(this);  //$(this)表示调用插件的dom元素
+                    this._$P = this._$E.find('.scroll');
+                    this.length = this._$P.children().length;
+                    this.index = 0;
+                    this.lock = false;
+                },
+                //渲染 页面结构(可以不需要，如果结构已经渲染好的话)
+                //事件处理
+                _handle: function(){
+                    var that = this;
+                    //$('#scroller')鼠标滚轮事件
+                    this._$E.bind('mousewheel', function(event) {
+                        if(that.lock) return;
+                        if(event.originalEvent.wheelDelta < 0 && that.index < that.length -1){
+                            that.before = that.index++;
+                        }else if(event.originalEvent.wheelDelta > 0 && that.index > 0){
+                            that.before = that.index--;
+                        }
+                        that._scroll();
+                    });
+                },
+                _scroll: function(){
+
+                    if(this.lock) return;
+                    var that = this;
+                    this.lock = true;
+                    //滚动前触发事件
+                    this._raise('beforeScroll',[this.before,this._$P.children().eq(this.before)]);
+                    // console.log(this.options.speed)  500  相当于取到speed;
+                    this._$P.stop().animate({'top':'-' + this.index + '00%'}, this.options.speed,function(){
+                        that.lock = false;
+                        that._raise('afterScroll',[that.index,that._$P.children().eq(that.index)]);
+                    })
+                },
+
+                _raise: function(event,args){
+                    //触发元素绑定的事件 args表示传递的参数
+                    this._$E.trigger(event,args);
+                },
+                //暴露在外部的方法
+                prev: function(){
+                    this.before = this.index--;
+                    this.index < 0 ? 0 : this.index;
+                    this._scroll();
+                },
+                next: function(){
+                    this.before = this.index++;
+                    this.index = this.index > this.length - 1 ? this.length- 1 : this.index;
+                    this._scroll();
+                },
+                //自定义绑定事件
+                bind: function(event,callback){
+                    this._$E.bind(event,callback);
+                }
+
+            }
+            //插件主体
+            $.fn.scroller = function(ops){
+                //jQuery的继承 $.extend
+                $.extend(this,_proto_);  //拥有_proto_的所有方法属性
+                //this表示事件主体
+                this._init(ops);
+                this._handle();
+                //暴露给外部调用的方法    data
+                this._$E.data(this.options.name,this);
+            }
+        })(window,jQuery);
+        $(function(){
+            $('#scroller').scroller();
+            var scroller = $('#scroller').data('scroller');
+            //绑定自定义事件
+            scroller.bind('beforeScroll',function(e,index,$p){
+                if(index == 0){
+                    $p.find('video').get(0).pause();
+                    $p.find('video').removeAttr('autoplay').animate({top:'-127px'},500);
+                    $p.find('.btn').show(1000);
+                }else if(index == 1){
+                    $p.parent().find('video').animate({top:'0'},500);
+                    $('.text').fadeOut(1000);
+                }else if(index == 2){
+                    $('.text1').fadeOut(1000);
+                    $p.find('.phone').animate({'left': '200%','top':'100%'},200,function(){
+                        $p.find('.scaner').animate({'left':'0','top':'-100%'},200)
+                    });
+                }
+
+            });
+            scroller.bind('afterScroll',function(e,index,$p){
+                $p.parent().find('.do-scale').removeClass('scale');
+                $p.find('.do-scale').addClass('scale');
+                $('#next').show();
+                if(index == 1){
+                    $('.text').fadeIn(1000);
+                }else if(index == 2){
+                    $p.find('.phone').animate({top:'50%',left:'20%'},1000,function(){
+                        $p.find('.scaner').animate({top:'0',left:'20%'},500,function(){
+                            $('.text1').fadeIn(1000);
+                        })
+                    })
+                }else if(index == 6){
+                    $('#next').hide();
+                }else{
+
+                }
+            });
+            $('#next').click(function(){
+                scroller.next();
+            });
+            $('.btn').click(function(){
+                $(this).hide();
+                video.play();
+            })
+        })
+    </script>
+</body>
+</html>

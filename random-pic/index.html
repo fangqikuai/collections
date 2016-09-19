@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>随机打乱图片位置</title>
+    <style>
+        body{
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+
+        ul,li{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+        }
+        ul{
+            width: 600px;
+            height: 600px;
+            margin: 50px auto;
+        }
+        li{
+            width: 200px;
+            height: 200px;
+            float: left;
+            position: relative;
+        }
+        img{
+            width: 200px;
+            height: 200px;
+        }
+        button{
+            width: 100px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <button id="btn">点击打乱</button>
+        <ul>
+            <li><img src="images/1.jpg" alt="" /></li>
+            <li><img src="images/2.jpg" alt="" /></li>
+            <li><img src="images/3.jpg" alt="" /></li>
+            <li><img src="images/4.jpg" alt="" /></li>
+            <li><img src="images/5.jpg" alt="" /></li>
+            <li><img src="images/6.jpg" alt="" /></li>
+            <li><img src="images/7.jpg" alt="" /></li>
+            <li><img src="images/8.jpg" alt="" /></li>
+            <li><img src="images/9.jpg" alt="" /></li>
+        </ul>
+    </div>
+
+    <script>
+        window.onload = function(){
+            //获取所有li元素节点
+            var allLi = document.getElementsByTagName('li');
+            //定义一个数组，来存储 left 和 top;
+            var pos = [];
+
+            //遍历所有的li获得所有的left和top值
+            for (var i = 0; i < allLi.length; i++) {
+                pos.push({
+                    left:allLi[i].offsetLeft,
+                    top:allLi[i].offsetTop
+                });
+            }
+            // console.log(pos);
+            //遍历所有的li，让其绝对定位；
+            for (var i = 0; i < allLi.length; i++) {
+                allLi[i].style.position="absolute";
+                allLi[i].style.left= pos[i].left + 'px';
+                allLi[i].style.top = pos[i].top + 'px';
+            }
+
+            //获取点击按钮
+            var btn = document.getElementById('btn');
+            var flag = false;
+
+            //绑定点击事件
+            btn.onclick = function(){
+
+                //把位置的数组进行随机的排列方法 利用sort()函数和Math.random()函数相结合
+                pos.sort(function(){
+                    //return Math.random()  //不一样的效果，中间的图片不会改变，对角线的图片改变
+                    return Math.random() - 0.5; //产生 -0.5~0.5的随机数，这样才能产生随机的位置改变
+                })
+                //console.log(pos);
+                //遍历所有li进行移动事件
+                for (var i = 0; i < allLi.length; i++) {
+                    if(!flag){
+                       move(allLi[i],pos[i]);
+                    }
+                }
+            }
+
+            //移动事件
+            function move(obj,json){
+                //现在的位置
+                var start = {};
+                //移动的距离
+                var dis = {};
+                for (var name in json) {
+                    //获取当前位置
+                    start[name] = parseInt(getComputedStyle(obj,null)[name]);
+                    //移动的位置等于随机位置减去当前位置
+                    dis[name] = json[name] - start[name];
+                }
+
+                var time = 500;
+                var count = Math.floor(time/30)
+                var n = 0;
+                obj.timer = setInterval(function(){
+                    flag = true;
+                    n++;
+                    for(var name in json){
+                        //移动的位置等于 要移动的距离乘以现在的时间/总时间 + 原来的距离;
+                        var cur = dis[name]*(time*n/count)/time + start[name];
+                        obj.style[name] = cur + 'px';
+                    }
+                    //判断终止条件
+                    if(n == count){
+                        clearInterval(obj.timer);
+                        flag = false;
+                        return;
+                    }
+                },30)
+            }
+
+
+        }
+    </script>
+</body>
+</html>
