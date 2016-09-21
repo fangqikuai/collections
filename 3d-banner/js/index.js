@@ -51,6 +51,7 @@ $(function(){
         }).next().css({
             transform: 'translate3d(0,0,0)'
         });
+        clearInterval(timer);
         timer = setInterval(changePic,6000);
     });
 })
