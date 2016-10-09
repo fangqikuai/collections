@@ -43,13 +43,13 @@ window.onload = function(){
                         html.push('</div>');
                     }
                     contentObj.innerHTML += html.join("");
-                    setTimeout(function(){
-                        var WaterfallObj2 = new Waterfall({
-                            contentId : 'content',
-                            itemClass: 'item-wrapper'
-                        });
-                        window.onscroll = null;
-                    },100)
+                    var allImg = document.getElementsByTagName('img');
+                    var len = allImg.length;
+                    for(var i =0; i < len ; i++){
+                        allImg[i].onload = function(){
+                            WaterfallObj.render();
+                        }
+                    }
                 }
             }
         }
