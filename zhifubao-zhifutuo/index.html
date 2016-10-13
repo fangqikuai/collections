@@ -255,6 +255,7 @@
         $(function(){
             $('#scroller').scroller();
             var scroller = $('#scroller').data('scroller');
+            console.log(scroller);
             //绑定自定义事件
             scroller.bind('beforeScroll',function(e,index,$p){
                 if(index == 0){
